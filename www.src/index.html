@@ -47,12 +47,19 @@
                     <div class="settings__type">
                         <p class="settings__text">Выберите действие для броска:</p>
                         <div class="settings__item">
-                            <input class="settings__input" id="shake" type="radio" name="type" value="shake">
-                            <label class="settings__label" for="shake">встряхивание</label>
+                            <input class="settings__input settings__input--radio" id="shake" type="radio" name="type" value="shake">
+                            <label class="settings__label settings__label--radio" for="shake">встряхивание</label>
                         </div>
                         <div class="settings__item">
-                            <input class="settings__input" id="tap" type="radio" name="type" value="tap">
-                            <label class="settings__label" for="tap">тап</label>
+                            <input class="settings__input settings__input--radio" id="tap" type="radio" name="type" value="tap">
+                            <label class="settings__label settings__label--radio" for="tap">тап</label>
+                        </div>
+                    </div>
+                    <div class="setting__vibration">
+                        <p class="settings__text">Настройки отклика:</p>
+                        <div class="settings__item">
+                            <input class="settings__input settings__input--checkbox" type="checkbox" id="vibro" name="vibro">
+                            <label class="settings__label settings__label--checkbox" for="vibro">запретить вибрацию</label>
                         </div>
                     </div>
                 </div>

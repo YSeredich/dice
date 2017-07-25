@@ -8,16 +8,19 @@ class Dice {
         this._tapHandler = this._tapHandler.bind(this);
     }
 
-    start(type) {
+    start(type, vibrationBan) {
         this._type = type;
+        this._vibroBan = vibrationBan;
         this._screen = document.getElementById('app');
         this._diceWraps = this._screen.querySelectorAll('.dice-wrap');
         this.bindHandlers();
     }
 
     _refreshDice() {
-
         this.clearHandlers();
+        if (!this._vibroBan) {
+            navigator.vibrate(1000);
+        }
 
         // emulate animation
         const timerId = setInterval(() => {
@@ -43,6 +46,14 @@ class Dice {
         if (this._type !== type) {
             this.clearHandlers();
             this._type = type;
+            this.bindHandlers();
+        }
+    }
+
+    setVibro(ban) {
+        if (this._vibroBan !== ban) {
+            this.clearHandlers();
+            this._vibroBan = ban;
             this.bindHandlers();
         }
     }
