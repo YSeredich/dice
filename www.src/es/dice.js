@@ -6,6 +6,7 @@ class Dice {
         this._animationInterval = 100;
         this._refreshDice = this._refreshDice.bind(this);
         this._tapHandler = this._tapHandler.bind(this);
+        this._settingsHandler = this._settingsHandler.bind(this);
     }
 
     start(type, vibrationBan) {
@@ -13,10 +14,13 @@ class Dice {
         this._vibroBan = vibrationBan;
         this._screen = document.getElementById('app');
         this._diceWraps = this._screen.querySelectorAll('.dice-wrap');
+        this._settings = this._screen.querySelector('.settings__content');
         this.bindHandlers();
     }
 
     _refreshDice() {
+        this._settings.classList.remove('is-visible');
+
         this.clearHandlers();
         if (!this._vibroBan) {
             navigator.vibrate(1000);
@@ -42,6 +46,12 @@ class Dice {
         }
     }
 
+    _settingsHandler(e) {
+        if (!e.target.closest('.settings')) {
+            this._settings.classList.remove('is-visible');
+        }
+    }
+
     setType(type) {
         if (this._type !== type) {
             this.clearHandlers();
@@ -61,8 +71,10 @@ class Dice {
     bindHandlers() {
         if (this._type === 'shake') {
             shake.startWatching(dice._refreshDice.bind(this));
+            this._screen.addEventListener('click', this._settingsHandler);
         } else {
             this._screen.addEventListener('click', this._tapHandler);
+            this._screen.removeEventListener('click', this._settingsHandler);
         }
     }
 
