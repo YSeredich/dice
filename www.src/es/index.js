@@ -18,7 +18,7 @@
  */
 
 import "babel-polyfill";
-import dice from './dice';
+import settings from './settings';
 
 class App {
 
@@ -27,7 +27,7 @@ class App {
     }
 
     static onDeviceReady() {
-        dice.bindHandlers();
+        settings.bindHandlers();
     }
 }
 

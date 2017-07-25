@@ -4,17 +4,24 @@ class Dice {
     constructor() {
         this._animationDuration = 1000;
         this._animationInterval = 100;
+        this._refreshDice = this._refreshDice.bind(this);
+        this._tapHandler = this._tapHandler.bind(this);
+    }
+
+    start(type) {
+        this._type = type;
+        this._screen = document.getElementById('app');
+        this._diceWraps = this._screen.querySelectorAll('.dice-wrap');
+        this.bindHandlers();
     }
 
     _refreshDice() {
+
         this.clearHandlers();
 
-        const diceWraps = this._diceWraps;
-
         // emulate animation
-        const timerId = setInterval(function() {
-            [].forEach.call(diceWraps, function(diceWrap) {
-                console.log('hello');
+        const timerId = setInterval(() => {
+            [].forEach.call(this._diceWraps, (diceWrap) => {
                 Dice.setRandomDice(diceWrap);
             });
         }, this._animationInterval);
@@ -26,32 +33,31 @@ class Dice {
         this.bindHandlers();
     }
 
-    bindHandlers(type) {
-        this._type = type ? type : 'shake';
-
-        if(!this._screen) {
-            this._screen = document.getElementById('app');
-            this._diceWraps = this._screen.querySelectorAll('.dice-wrap');
+    _tapHandler(e) {
+        if (e.target.classList.contains('content') || e.target.closest('.dice-wrap')) {
+            this._refreshDice();
         }
+    }
 
+    setType(type) {
+        if (this._type !== type) {
+            this.clearHandlers();
+            this._type = type;
+            this.bindHandlers();
+        }
+    }
+
+    bindHandlers() {
         if (this._type === 'shake') {
             shake.startWatching(dice._refreshDice.bind(this));
         } else {
-            const screen = document.getElementById('app');
-            screen.addEventListener('click', () => {
-                this._refreshDice();
-            });
+            this._screen.addEventListener('click', this._tapHandler);
         }
     }
 
     clearHandlers() {
-        if (this._type === 'shake') {
-            shake.stopWatching();
-        } else {
-            this._screen.remove('click', () => {
-                this._refreshDice();
-            });
-        }
+        shake.stopWatching();
+        this._screen.removeEventListener('click', this._tapHandler);
     }
 
     static setRandomDice(wrap) {

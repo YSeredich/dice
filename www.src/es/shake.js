@@ -30,7 +30,7 @@ class Shake {
     }
 
     static _onError() {
-        alert('Something went wrong');
+        console.log('Something went wrong');
     }
 
     startWatching(callback) {
@@ -43,7 +43,11 @@ class Shake {
     }
 
     stopWatching() {
-        navigator.accelerometer.clearWatch(this._watchID);
+        if (this._watchID) {
+            navigator.accelerometer.clearWatch(this._watchID);
+        }
+
+        this._watchID = null;
     }
 }
 
